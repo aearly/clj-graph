@@ -1,4 +1,4 @@
-(ns clj-graph.core
+(ns graph.core
   (:require
     [clojure.core :refer :all]
     [clojure.string :refer [join]]))
@@ -20,7 +20,8 @@
 
 (defn create
   "initializes an empty graph"
-  [] {
+  []
+  {
     "vertices" {}
     "edges" {}
     "indexes" {}

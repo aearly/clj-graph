@@ -1,6 +1,6 @@
-(ns clj-graph.core-test
+(ns graph.core-test
   (:require [clojure.test :refer :all]
-            [clj-graph.core :refer :all]))
+            [graph.core :refer :all]))
 
 (defn basicGraph []
   (let [g (create)
