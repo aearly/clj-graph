@@ -2,6 +2,19 @@
   (:require [clojure.test :refer :all]
             [clj-graph.core :refer :all]))
 
+(defn basicGraph []
+  (let [g (create)
+        v1 {"id" 1 "data" "foo"}
+        v2 {"id" 2 "data" "bar"}
+        v3 {"id" 3 "data" "baz"}]
+    (-> g
+      (addVertex "class" v1)
+      (addVertex "class" v2)
+      (addVertex "class" v3)
+      (addEdge "rel" {"from" ["class" 1] "to" "class:2"})
+      (addEdge "rel" {"from" ["class" 2] "to" "class:1"})
+      (addEdge "otherrel" {"from" ["class" 2] "to" "class:2"}))))
+
 (deftest graph-tests
   (testing "vertices"
     (testing "should create an empty graph"
@@ -36,6 +49,37 @@
           "class:0" {"id" "0"}
           "class:2" {"id" "2"}
         }))))
+  )
+
+
+  (testing "edges"
+    (testing "should add a named edge"
+      (let [g (basicGraph)]
+        (is (= (get g "edges") {
+          "rel" [["class:1" "class:2"] ["class:2" "class:1"]]
+          "otherrel" [["class:2" "class:2"]]
+          }))))
+
+    (testing "should maintain an index of outgoing verts by edge type"
+      (let [g (basicGraph)
+            indexes (get g "indexes")]
+        (is (= indexes {
+          "rel" {
+            "class:1" ["class:2"]
+            "class:2" ["class:1"] }
+          "otherrel" { "class:2" ["class:2"] }
+        }))))
+
+    (testing "should get a list of named edges"
+      (let [g (basicGraph)
+            result (getEdges g "rel")]
+        (is (= result [
+          ["class:1" "class:2"]
+          ["class:2" "class:1"]
+        ]))))
+
+    (testing "should throw when connecting to a nonexistent node")
+
   )
 )
 
