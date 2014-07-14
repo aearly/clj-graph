@@ -29,8 +29,8 @@
   "add a vertex to the graph"
   ([graph nom data]
     (let [verts (get graph "vertices")
-      id (or (get data "id") (str (count verts))) ;if no id, use the number of verts
-      data  (assoc data "id" id)] ; make sure id is included on vertex
+          id (or (get data "id") (str (count verts))) ;if no id, use the number of verts
+          data  (assoc data "id" id)] ; make sure id is included on vertex
       (assoc graph
         "vertices" (assoc verts
           (vertex-key nom id) data)))
@@ -46,4 +46,4 @@
   ([graph key]
     (get-in graph ["vertices" key]))
   ([graph nom id]
-    (getVertex (vertex-key))))
+    (getVertex graph (vertex-key nom id))))
