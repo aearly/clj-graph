@@ -12,8 +12,8 @@
 
     (testing "should add a named vertex"
       (let [g (-> (create)
-          (addVertex "foo" {"id" 1 "data" "foo"})
-        )]
+                (addVertex "foo" {"id" 1 "data" "foo"})
+              )]
         (is (= (get g "vertices") {"foo:1" {"id" 1 "data" "foo"}}))))
 
     (testing "should add an id if not included"
@@ -26,7 +26,16 @@
             v (getVertex g "foo" "1")]
         (is (= v vertex))))
 
-    (testing "should get all vertices with a name")
+    (testing "should get all vertices with a name"
+      (let [g (-> (create)
+                (addVertex "class" {})
+                (addVertex "asdf" {})
+                (addVertex "class" {}))
+            result (getVertices g "class")]
+        (is (= result {
+          "class:0" {"id" "0"}
+          "class:2" {"id" "2"}
+        }))))
   )
 )
 

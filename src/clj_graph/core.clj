@@ -47,3 +47,12 @@
     (get-in graph ["vertices" key]))
   ([graph nom id]
     (getVertex graph (vertex-key nom id))))
+
+(defn getVertices [graph nom]
+  (let [re (re-pattern (join ["^" nom ":"]))]
+    (reduce-kv
+      (fn [verts key vertex]
+        (if (re-find re key)
+          (assoc verts key vertex)
+          verts))
+      {} (get graph "vertices"))))
