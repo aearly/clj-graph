@@ -3,7 +3,8 @@
     [clojure.core :refer :all]
     [clojure.string :refer [join]]))
 
-(def ^:private re-colon (re-pattern ":"))
+(def ^:private FROM 0)
+(def ^:private TO 1)
 
 (defn vertex-key
   "abstraction for creating vertex keys from several types of arguments"
@@ -12,7 +13,7 @@
   ([arg]
     (if (vector? arg)
       (apply vertex-key arg)
-      (if (re-find re-colon arg)
+      (if (re-find #":" arg)
         arg
         (vertex-key "V" arg)))))
 
@@ -63,7 +64,8 @@
         (if (re-find re key)
           (assoc verts key vertex)
           verts))
-      {} (get graph "vertices"))))
+      {}
+      (get graph "vertices"))))
 
 
 ; Edge Functions
@@ -103,23 +105,44 @@
 ; Relationship Functions
 
 (defn getOutgoing
-  ([graph relName key]
-    (or (get-in graph ["indexes" relName key]) []))
+  ([graph relName vertKey]
+    (or (get-in graph ["indexes" relName vertKey]) []))
   ([graph relName nom id]
     (getOutgoing graph relName (vertex-key nom id))))
 
 (defn getAllOutgoing
-  ([graph key]
+  ([graph vertKey]
     (vec
       (mapcat
         (fn [edgeName]
-          (getOutgoing graph edgeName key))
+          (getOutgoing graph edgeName vertKey))
         (keys (get graph "edges")))))
   ([graph nom id]
     (getAllOutgoing graph (vertex-key nom id))))
 
-(defn getIncoming [graph relName nom id])
+(defn getIncoming
+  ([graph relName vertKey]
+    (reduce
+      (fn [acc edge]
+        (if (= (get edge FROM) vertKey)
+          (conj acc (get edge TO))
+          acc))
+      []
+      (get-in graph ["edges" relName])))
+  ([graph relName nom id]
+    (getIncoming graph relName (vertex-key nom id))))
 
-(defn getAllIncoming [graph nom id])
+(defn getAllIncoming
+  ([graph vertKey]
+    (vec (mapcat
+      (fn [edgeName]
+        (getIncoming graph edgeName vertKey))
+      (keys (get graph "edges")))))
+  ([graph nom id]
+    (getAllIncoming graph (vertex-key nom id))))
 
-(defn expand [graph verts])
+(defn expand [graph vertKeys]
+  (vec (map
+    (fn [key]
+      (get-in graph ["vertices" key]))
+    vertKeys)))

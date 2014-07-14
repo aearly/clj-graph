@@ -96,11 +96,22 @@
       (let [g (basicGraph)]
         (is (= (getAllOutgoing g "class:2") ["class:2" "class:1"]))))
 
-    (testing "should get verts connected by named incoming edges")
+    (testing "should get verts connected by named incoming edges"
+      (let [g (basicGraph)]
+        (is (= (getIncoming g "rel" "class" "1") ["class:2"]))
+        (is (= (getIncoming g "rel" "class:2") ["class:1"]))))
 
-    (testing "should get verts connected by all incoming edges")
+    (testing "should get verts connected by all incoming edges"
+      (let [g (basicGraph)]
+        (is (= (getAllIncoming g "class:2") ["class:2" "class:1"]))))
 
-    (testing "should expand edge results")
+    (testing "should expand edge results"
+      (let [g (basicGraph)
+            result (getAllOutgoing g "class:2")]
+        (is (= (expand g result) [
+          {"id" 2 "data" "bar"},
+          {"id" 1 "data" "foo"}
+        ]))))
   )
 )
 
