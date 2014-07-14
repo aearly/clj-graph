@@ -15,6 +15,7 @@
       (addEdge "rel" {"from" ["class" 2] "to" "class:1"})
       (addEdge "otherrel" {"from" ["class" 2] "to" "class:2"}))))
 
+
 (deftest graph-tests
   (testing "vertices"
     (testing "should create an empty graph"
@@ -78,10 +79,31 @@
           ["class:2" "class:1"]
         ]))))
 
-    (testing "should throw when connecting to a nonexistent node")
+    (testing "should throw when connecting to a nonexistent node"
+      (let [g (create)]
+        (is (thrown-with-msg? AssertionError #"no such vertex"
+          (addEdge g "rel" {"from" "class:1" "to" "class:2"})))))
+  )
 
+
+  (testing "relationships"
+    (testing "should get verts connected by named outgoing edges"
+      (let [g (basicGraph)]
+        (is (= (getOutgoing g "rel" "class" "1") ["class:2"]))
+        (is (= (getOutgoing g "rel" "class:2") ["class:1"]))))
+
+    (testing "should get verts connected by all outgoing edges"
+      (let [g (basicGraph)]
+        (is (= (getAllOutgoing g "class:2") ["class:2" "class:1"]))))
+
+    (testing "should get verts connected by named incoming edges")
+
+    (testing "should get verts connected by all incoming edges")
+
+    (testing "should expand edge results")
   )
 )
+
 
 
 (deftest vertex-key-tests

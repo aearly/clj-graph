@@ -28,7 +28,8 @@
 ; Vertex functions
 
 (defn addVertex
-  "add a vertex to the graph"
+  "add a vertex to the graph.  All edges are stored in a single hash map. Each
+  vertex is keyed by namespace:id.  The id is coerced to a string"
   ([graph nom data]
     (let [verts (get graph "vertices")
           id (or (get data "id") (str (count verts))) ;if no id, use the number of verts
@@ -74,7 +75,10 @@
     (let [index (or index [])]
       (conj index to)))))
 
-(defn addEdge [graph nom opts]
+(defn addEdge
+  "Add an edge. Edges are stored as lists of [from to] pairs for each namespace.
+  The edge lists are stored in hashmap keyed on the namespace."
+  [graph nom opts]
   (let [from (get opts "from")
         to (get opts "to")]
     (assert (and
@@ -94,3 +98,28 @@
 
 (defn getEdges [graph nom]
   (get-in graph ["edges" nom]))
+
+
+; Relationship Functions
+
+(defn getOutgoing
+  ([graph relName key]
+    (or (get-in graph ["indexes" relName key]) []))
+  ([graph relName nom id]
+    (getOutgoing graph relName (vertex-key nom id))))
+
+(defn getAllOutgoing
+  ([graph key]
+    (vec
+      (mapcat
+        (fn [edgeName]
+          (getOutgoing graph edgeName key))
+        (keys (get graph "edges")))))
+  ([graph nom id]
+    (getAllOutgoing graph (vertex-key nom id))))
+
+(defn getIncoming [graph relName nom id])
+
+(defn getAllIncoming [graph nom id])
+
+(defn expand [graph verts])
