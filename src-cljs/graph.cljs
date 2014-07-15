@@ -1,6 +1,6 @@
 (ns graph
   (:refer-clojure :exclude
-   [ get get-in
+   [ get get-in vals
      concat mapcat
      into-array])
   (:require [graph.core :as graph]))
@@ -17,14 +17,15 @@
 (def ^:export getIncoming graph/getIncoming)
 (def ^:export getAllIncoming graph/getAllIncoming)
 (def ^:export expand graph/expand)
+(def ^:export uniq graph/uniq)
 
 
-; taken from mori
+; taken from mori, will add more as needed
 (def ^:export get cljs.core/get)
 (def ^:export get-in cljs.core/get-in)
+(def ^:export vals cljs.core/vals)
 (def ^:export concat cljs.core/concat)
 (def ^:export mapcat cljs.core/mapcat)
-(def ^:export into-array cljs.core/into-array)
 (def ^:export into-array cljs.core/into-array)
 
 (def ^:export clj-to-js cljs.core/clj->js)

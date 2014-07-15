@@ -146,3 +146,6 @@
     (fn [key]
       (get-in graph ["vertices" key]))
     vertKeys)))
+
+(defn uniq [coll]
+  (vec (into (sorted-set) coll)))
