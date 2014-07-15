@@ -1,6 +1,5 @@
 (ns graph.core
   (:require
-    [clojure.core :refer :all]
     [clojure.string :refer [join]]))
 
 (def ^:private FROM 0)

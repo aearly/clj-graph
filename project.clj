@@ -6,12 +6,17 @@
   :dependencies [
     [org.clojure/clojure "1.6.0"]
     [org.clojure/clojurescript "0.0-2268"]]
-  :plugins [[lein-cljsbuild "1.0.3"]]
+  :plugins [[lein-cljsbuild "1.0.3"]
+            [com.keminglabs/cljx "0.4.0"]]
+  :cljx {:builds [{:source-paths ["src"]
+                   :output-path "target/generated/cljs"
+                   :rules :cljs}]}
   :cljsbuild {
     :builds [{
       :id "dist"
-      :source-paths ["src-cljs"]
+      :source-paths ["src-cljs" "target/generated/cljs"]
       :compiler {
         :output-to "dist/graph.js"
         :optimizations :advanced
+        :output-wrapper false
       }}]})
