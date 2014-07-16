@@ -5935,9 +5935,11 @@ var af = function() {
   function a(a, b, g, h) {
     return c.b(a, b, Xe.a(g, h));
   }
-  function b(a, b, c) {
-    return ta.b(function(a, b) {
-      return Ab.a(U.a(b, 0), c) ? Ob.a(a, U.a(b, 1)) : a;
+  function b(a, b, g) {
+    return ac(g) ? pd(Uc.a(function(g) {
+      return c.b(a, b, g);
+    }, g)) : ta.b(function(a, b) {
+      return Ab.a(U.a(b, 1), g) ? Ob.a(a, U.a(b, 0)) : a;
     }, md, Wc.a(a, new Y(null, 2, 5, Z, ["edges", b], null)));
   }
   var c = null, c = function(c, e, g, h) {

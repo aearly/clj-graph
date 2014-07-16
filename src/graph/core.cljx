@@ -137,8 +137,8 @@
         vertKey))
       (reduce
         (fn [acc edge]
-          (if (= (get edge FROM) vertKey)
-            (conj acc (get edge TO))
+          (if (= (get edge TO) vertKey)
+            (conj acc (get edge FROM))
             acc))
         []
         (get-in graph ["edges" relName]))))
