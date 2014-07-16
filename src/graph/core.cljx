@@ -33,7 +33,7 @@
   vertex is keyed by namespace:id.  The id is coerced to a string"
   ([graph nom data]
     (let [verts (get graph "vertices")
-          id (or (get data "id") (str (count verts))) ;if no id, use the number of verts
+          id (get data "id" (str (count verts))) ;if no id, use the number of verts
           data  (assoc data "id" id)] ; make sure id is included on vertex
       (assoc graph
         "vertices" (assoc verts
@@ -111,7 +111,7 @@
         (fn [key]
           (getOutgoing graph relName key))
         vertKey))
-      (or (get-in graph ["indexes" relName vertKey]) []))
+      (get-in graph ["indexes" relName vertKey] []))
     )
   ([graph relName nom id]
     (getOutgoing graph relName (vertex-key nom id))))
