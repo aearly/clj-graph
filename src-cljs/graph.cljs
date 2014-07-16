@@ -1,6 +1,6 @@
 (ns graph
   (:refer-clojure :exclude
-   [ get get-in vals
+   [ get get-in vals count
      concat mapcat
      into-array
      vector hash-map set])
@@ -85,6 +85,7 @@
 (def ^:export get cljs.core/get)
 (def ^:export get-in cljs.core/get-in)
 (def ^:export vals cljs.core/vals)
+(def ^:export count cljs.core/count)
 (def ^:export concat cljs.core/concat)
 (def ^:export mapcat cljs.core/mapcat)
 (def ^:export into-array cljs.core/into-array)

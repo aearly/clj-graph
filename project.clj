@@ -9,11 +9,12 @@
   :plugins [[lein-cljsbuild "1.0.3"]
             [com.keminglabs/cljx "0.4.0"]]
 
+  :main graph.core
+
   ; make sure we run the cljx compiler before tests
   :prep-tasks ["cljx" "javac" "compile"]
 
   :test-paths ["target/generated/clj" "test"]
-
   :cljx {:builds [{:source-paths ["src"]
                    :output-path "target/generated/cljs"
                    :rules :cljs}

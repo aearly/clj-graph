@@ -101,13 +101,15 @@
 (defn getEdges [graph nom]
   (get-in graph ["edges" nom]))
 
+; TODO: "remove" operations
+
 
 ; Relationship Functions
 
 (defn getOutgoing
   ([graph relName vertKey]
-    (if (seq? vertKey) ; support a sequence of ids
-      (vec (map
+    (if (vector? vertKey) ; support a sequence of ids
+      (vec (mapcat
         (fn [key]
           (getOutgoing graph relName key))
         vertKey))
