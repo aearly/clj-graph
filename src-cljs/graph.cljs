@@ -89,9 +89,17 @@
 (def ^:export mapcat cljs.core/mapcat)
 (def ^:export into-array cljs.core/into-array)
 
+; basic types
 (def ^:export vector cljs.core/vector)
 (def ^:export hash-map cljs.core/hash-map)
 (def ^:export set cljs.core/set)
+
+; type predicates
+(def ^:export is-list cljs.core/list?)
+(def ^:export is-seq cljs.core/seq?)
+(def ^:export is-vector cljs.core/vector?)
+(def ^:export is-map cljs.core/map?)
+(def ^:export is-set cljs.core/set?)
 
 (def ^:export clj-to-js cljs.core/clj->js)
 (defn ^:export js-to-clj
