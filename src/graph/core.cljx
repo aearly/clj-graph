@@ -130,13 +130,18 @@
 
 (defn getIncoming
   ([graph relName vertKey]
-    (reduce
-      (fn [acc edge]
-        (if (= (get edge FROM) vertKey)
-          (conj acc (get edge TO))
-          acc))
-      []
-      (get-in graph ["edges" relName])))
+    (if (vector? vertKey)
+      (vec (mapcat
+        (fn [key]
+          (getIncoming graph relName key))
+        vertKey))
+      (reduce
+        (fn [acc edge]
+          (if (= (get edge FROM) vertKey)
+            (conj acc (get edge TO))
+            acc))
+        []
+        (get-in graph ["edges" relName]))))
   ([graph relName nom id]
     (getIncoming graph relName (vertex-key nom id))))
 

@@ -92,7 +92,7 @@
         (is (= (getOutgoing g "rel" "class" "1") ["class:2"]))
         (is (= (getOutgoing g "rel" "class:2") ["class:1"]))))
 
-    (testing "should get outgoing edges form an array of vertex"
+    (testing "should get outgoing edges form an array of vertices"
       (let [g (basicGraph)]
         (is (=
           (getOutgoing g "rel" ["class:1" "class:2"])
@@ -106,6 +106,12 @@
       (let [g (basicGraph)]
         (is (= (getIncoming g "rel" "class" "1") ["class:2"]))
         (is (= (getIncoming g "rel" "class:2") ["class:1"]))))
+
+    (testing "should get incoming edges form an array of vertices"
+      (let [g (basicGraph)]
+        (is (=
+          (getIncoming g "rel" ["class:1" "class:2"])
+          ["class:2" "class:1"]))))
 
     (testing "should get verts connected by all incoming edges"
       (let [g (basicGraph)]
