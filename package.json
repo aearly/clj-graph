@@ -1,0 +1,22 @@
+{
+  "name": "clj-graph",
+  "version": "0.1.0",
+  "description": "graph library for clojure/clojurescript",
+  "author": "Alexander Early <alexander.early@gmail.com>",
+  "main": "dist/graph.common.js",
+  "scripts": {
+    "prepublish": "make"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aearly/clj-graph"
+  },
+  "bugs": {
+    "url": "https://github.com/aearly/clj-graph/issues"
+  },
+  "keywords": [
+    "cljs",
+    "graph",
+    "clojurescript"
+  ]
+}

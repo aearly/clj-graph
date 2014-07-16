@@ -1,4 +1,7 @@
-default: dist/graph.common.js
+default: lein dist/graph.common.js
+
+lein:
+	@which lein > /dev/null || (echo "ERR: Leiningen not installed"; false)
 
 target/generated/cljs/graph/core.cljs: src/graph/core.cljx
 	lein cljx once
@@ -12,4 +15,4 @@ dist/graph.common.js: dist/graph.js
 clean:
 	rm dist/graph.common.js
 
-.PHONY: clean default
+.PHONY: clean default lein
