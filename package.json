@@ -5,7 +5,7 @@
   "author": "Alexander Early <alexander.early@gmail.com>",
   "main": "dist/graph.common.js",
   "scripts": {
-    "prepublish": "make"
+    "prepublish": "make default"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,12 @@
     "cljs",
     "graph",
     "clojurescript"
+  ],
+  "license": "EPL 1.0",
+  "files":  [
+    "dist/graph.common.js",
+    "README.md",
+    "LICENSE",
+    "doc/intro.md"
   ]
 }
