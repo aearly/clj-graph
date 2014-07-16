@@ -2,7 +2,8 @@
   (:refer-clojure :exclude
    [ get get-in vals
      concat mapcat
-     into-array])
+     into-array
+     vector hash-map set])
   (:require
     [graph.core :as graph]
     [clojure.string :refer [join]]))
@@ -87,6 +88,10 @@
 (def ^:export concat cljs.core/concat)
 (def ^:export mapcat cljs.core/mapcat)
 (def ^:export into-array cljs.core/into-array)
+
+(def ^:export vector cljs.core/vector)
+(def ^:export hash-map cljs.core/hash-map)
+(def ^:export set cljs.core/set)
 
 (def ^:export clj-to-js cljs.core/clj->js)
 (defn ^:export js-to-clj
