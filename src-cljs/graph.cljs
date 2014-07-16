@@ -3,7 +3,9 @@
    [ get get-in vals
      concat mapcat
      into-array])
-  (:require [graph.core :as graph]))
+  (:require
+    [graph.core :as graph]
+    [clojure.string :refer [join]]))
 
 (def ^:export create graph/create)
 (def ^:export addVertex graph/addVertex)
@@ -19,6 +21,64 @@
 (def ^:export expand graph/expand)
 (def ^:export uniq graph/uniq)
 
+(defn getKey
+  [vertex]
+  (join [(aget vertex "ns") ":" (str (aget vertex "id"))]))
+
+(defn addEgdeToIndex
+  [index from to]
+  (let [vertexIndex (or (cljs.core/get index from) [])]
+    (assoc! index from (conj vertexIndex to))))
+
+(defn ^:export fromJson
+  [jsonGraph]
+  (let [g {}
+        jsonVertices (aget jsonGraph "vertices")
+        jsonEdges (aget jsonGraph "edgeGroups")
+        edgeNames (.keys js/Object jsonEdges)
+        vertMap (areduce jsonVertices index acc {}
+                  (assoc acc index (getKey (aget jsonVertices index))))
+        vertices (transient {})
+        edges (transient {})
+        indexes (transient {})]
+    (-> g
+      (assoc "map" vertMap) ; for debug
+      (assoc "edgeNames" edgeNames) ; for debug
+      (assoc "vertices"
+        (persistent!
+          (areduce jsonVertices idx acc vertices
+            (let [vertex (aget jsonVertices idx)]
+              (assoc! acc (getKey vertex) (js->clj vertex))))))
+      (assoc "edges"
+        (persistent!
+          (areduce edgeNames edgeNameIndex acc edges
+            (let [edgeName (aget edgeNames edgeNameIndex)
+                  edgeArr (aget jsonEdges edgeName)]
+              (assoc! acc edgeName
+                (persistent!
+                  (areduce edgeArr edgeIdx edges (transient [])
+                    (let [edge (aget edgeArr edgeIdx)
+                          fromIdx (aget edge 0)
+                          toIdx (aget edge 1)]
+                      (conj! edges [
+                        (cljs.core/get vertMap fromIdx)
+                        (cljs.core/get vertMap toIdx)])))))))))
+      (assoc "indexes"
+        (persistent!
+          (areduce edgeNames edgeNameIdx acc indexes
+            (let [edgeName (aget edgeNames edgeNameIdx)
+                  edgeArr (aget jsonEdges edgeName)]
+              (assoc! acc edgeName
+                (persistent!
+                  (areduce edgeArr edgeIdx index (transient {})
+                    (let [edge (aget edgeArr edgeIdx)
+                          fromIdx (aget edge 0)
+                          toIdx (aget edge 1)]
+                      (addEgdeToIndex index
+                        (cljs.core/get vertMap fromIdx)
+                        (cljs.core/get vertMap toIdx))))))))))
+    )
+  ))
 
 ; taken from mori, will add more as needed
 (def ^:export get cljs.core/get)

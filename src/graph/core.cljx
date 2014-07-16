@@ -106,7 +106,13 @@
 
 (defn getOutgoing
   ([graph relName vertKey]
-    (or (get-in graph ["indexes" relName vertKey]) []))
+    (if (seq? vertKey) ; support a sequence of ids
+      (vec (map
+        (fn [key]
+          (getOutgoing graph relName key))
+        vertKey))
+      (or (get-in graph ["indexes" relName vertKey]) []))
+    )
   ([graph relName nom id]
     (getOutgoing graph relName (vertex-key nom id))))
 

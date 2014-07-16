@@ -10,7 +10,10 @@
             [com.keminglabs/cljx "0.4.0"]]
   :cljx {:builds [{:source-paths ["src"]
                    :output-path "target/generated/cljs"
-                   :rules :cljs}]}
+                   :rules :cljs}
+                  {:source-paths ["src"]
+                   :output-path "target/generated/clj"
+                   :rules :clj}]}
   :cljsbuild {
     :builds [{
       :id "dist"
