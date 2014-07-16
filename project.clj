@@ -8,6 +8,9 @@
     [org.clojure/clojurescript "0.0-2268"]]
   :plugins [[lein-cljsbuild "1.0.3"]
             [com.keminglabs/cljx "0.4.0"]]
+
+  :test-paths ["target/generated/clj" "test"]
+
   :cljx {:builds [{:source-paths ["src"]
                    :output-path "target/generated/cljs"
                    :rules :cljs}
