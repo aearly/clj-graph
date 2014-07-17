@@ -83,7 +83,7 @@ function B(a, b) {
   var c = pa(b), c = v(v(c) ? c.Db : c) ? c.Cb : q(b);
   return Error(["No protocol method ", a, " defined for type ", c, ": ", b].join(""));
 }
-function ra(a) {
+function qa(a) {
   var b = a.Cb;
   return v(b) ? b : "" + C.d(a);
 }
@@ -1197,7 +1197,7 @@ var Pb = function() {
       return Pb.b(a, b, c);
     }
     if (z) {
-      throw Error("nth not supported on this type " + C.d(ra(pa(a))));
+      throw Error("nth not supported on this type " + C.d(qa(pa(a))));
     }
     return null;
   }
@@ -1221,7 +1221,7 @@ var Pb = function() {
       return Pb.a(a, b);
     }
     if (z) {
-      throw Error("nth not supported on this type " + C.d(ra(pa(a))));
+      throw Error("nth not supported on this type " + C.d(qa(pa(a))));
     }
     return null;
   }
@@ -1315,7 +1315,7 @@ function Tb(a, b) {
 f = Tb.prototype;
 f.call = function() {
   var a = null;
-  return a = function(a, c, d, e, g, h, k, l, m, n, p, s, w, u, x, A, H, N, W, ja, qa, wb) {
+  return a = function(a, c, d, e, g, h, k, l, m, n, p, s, w, u, x, A, H, N, W, ja, ra, wb) {
     switch(arguments.length) {
       case 1:
         var r = a, r = this;
@@ -1359,9 +1359,9 @@ f.call = function() {
       case 20:
         return r = a, r = this, r.e.ua ? r.e.ua(c, d, e, g, h, k, l, m, n, p, s, w, u, x, A, H, N, W, ja) : r.e.call(null, c, d, e, g, h, k, l, m, n, p, s, w, u, x, A, H, N, W, ja);
       case 21:
-        return r = a, r = this, r.e.va ? r.e.va(c, d, e, g, h, k, l, m, n, p, s, w, u, x, A, H, N, W, ja, qa) : r.e.call(null, c, d, e, g, h, k, l, m, n, p, s, w, u, x, A, H, N, W, ja, qa);
+        return r = a, r = this, r.e.va ? r.e.va(c, d, e, g, h, k, l, m, n, p, s, w, u, x, A, H, N, W, ja, ra) : r.e.call(null, c, d, e, g, h, k, l, m, n, p, s, w, u, x, A, H, N, W, ja, ra);
       case 22:
-        return r = a, r = this, Ub.xb ? Ub.xb(r.e, c, d, e, g, h, k, l, m, n, p, s, w, u, x, A, H, N, W, ja, qa, wb) : Ub.call(null, r.e, c, d, e, g, h, k, l, m, n, p, s, w, u, x, A, H, N, W, ja, qa, wb);
+        return r = a, r = this, Ub.xb ? Ub.xb(r.e, c, d, e, g, h, k, l, m, n, p, s, w, u, x, A, H, N, W, ja, ra, wb) : Ub.call(null, r.e, c, d, e, g, h, k, l, m, n, p, s, w, u, x, A, H, N, W, ja, ra, wb);
     }
     throw Error("Invalid arity: " + arguments.length);
   };
@@ -2441,17 +2441,17 @@ function Jc(a, b, c) {
   if (17 === b) {
     return a.sa ? a.sa(c, d, e, g, h, k, l, m, n, p, s, w, u, x, A, H, N) : a.sa ? a.sa(c, d, e, g, h, k, l, m, n, p, s, w, u, x, A, H, N) : a.call(null, c, d, e, g, h, k, l, m, n, p, s, w, u, x, A, H, N);
   }
-  var W = F(ja), qa = G(ja);
+  var W = F(ja), ra = G(ja);
   if (18 === b) {
     return a.ta ? a.ta(c, d, e, g, h, k, l, m, n, p, s, w, u, x, A, H, N, W) : a.ta ? a.ta(c, d, e, g, h, k, l, m, n, p, s, w, u, x, A, H, N, W) : a.call(null, c, d, e, g, h, k, l, m, n, p, s, w, u, x, A, H, N, W);
   }
-  ja = F(qa);
-  qa = G(qa);
+  ja = F(ra);
+  ra = G(ra);
   if (19 === b) {
     return a.ua ? a.ua(c, d, e, g, h, k, l, m, n, p, s, w, u, x, A, H, N, W, ja) : a.ua ? a.ua(c, d, e, g, h, k, l, m, n, p, s, w, u, x, A, H, N, W, ja) : a.call(null, c, d, e, g, h, k, l, m, n, p, s, w, u, x, A, H, N, W, ja);
   }
-  var wb = F(qa);
-  G(qa);
+  var wb = F(ra);
+  G(ra);
   if (20 === b) {
     return a.va ? a.va(c, d, e, g, h, k, l, m, n, p, s, w, u, x, A, H, N, W, ja, wb) : a.va ? a.va(c, d, e, g, h, k, l, m, n, p, s, w, u, x, A, H, N, W, ja, wb) : a.call(null, c, d, e, g, h, k, l, m, n, p, s, w, u, x, A, H, N, W, ja, wb);
   }
@@ -5742,7 +5742,7 @@ var Ve = function() {
           return function u(e) {
             return fc(e) ? Ce.d(Mc.a(u, e)) : Xb(e) ? Vc(null == e ? null : ya(e), Mc.a(u, e)) : e instanceof Array ? pd(Mc.a(u, e)) : pa(e) === Object ? Vc(Hd, function() {
               return function(a, b, c, d) {
-                return function qa(g) {
+                return function ra(g) {
                   return new tc(null, function(a, b, c, d) {
                     return function() {
                       for (;;) {
@@ -5763,10 +5763,10 @@ var Ve = function() {
                               }
                               b = void 0;
                             }
-                            return b ? zc(h.ba(), qa(kb(a))) : zc(h.ba(), null);
+                            return b ? zc(h.ba(), ra(kb(a))) : zc(h.ba(), null);
                           }
                           h = M(a);
-                          return S(new Y(null, 2, 5, Z, [d.d ? d.d(h) : d.call(null, h), u(e[h])], null), qa(O(a)));
+                          return S(new Y(null, 2, 5, Z, [d.d ? d.d(h) : d.call(null, h), u(e[h])], null), ra(O(a)));
                         }
                         return null;
                       }
@@ -5889,12 +5889,18 @@ function $e(a, b, c, d) {
     return Ob.a(v(a) ? a : md, d);
   });
 }
-var af = function() {
+function af(a, b) {
+  return ta.b(function(b, d) {
+    var e = a.d ? a.d(d) : a.call(null, d);
+    return ac(e) || fc(e) ? Vc(b, e) : Ob.a(b, e);
+  }, xe, b);
+}
+var bf = function() {
   function a(a, b, g, h) {
     return c.b(a, b, Xe.a(g, h));
   }
   function b(a, b, g) {
-    return ac(g) ? pd(Uc.a(function(g) {
+    return ac(g) || Yb(g) ? pd(af(function(g) {
       return c.b(a, b, g);
     }, g)) : Wc.b(a, new Y(null, 3, 5, Z, ["indexes", b, g], null), md);
   }
@@ -5910,13 +5916,13 @@ var af = function() {
   c.b = b;
   c.m = a;
   return c;
-}(), bf = function() {
+}(), cf = function() {
   function a(a, b, g) {
     return c.a(a, Xe.a(b, g));
   }
   function b(a, b) {
-    return pd(Uc.a(function(c) {
-      return af.b(a, c, b);
+    return pd(af(function(c) {
+      return bf.b(a, c, b);
     }, Fd(U.a(a, "edges"))));
   }
   var c = null, c = function(c, e, g) {
@@ -5931,12 +5937,12 @@ var af = function() {
   c.a = b;
   c.b = a;
   return c;
-}(), cf = function() {
+}(), df = function() {
   function a(a, b, g, h) {
     return c.b(a, b, Xe.a(g, h));
   }
   function b(a, b, g) {
-    return ac(g) ? pd(Uc.a(function(g) {
+    return ac(g) ? pd(af(function(g) {
       return c.b(a, b, g);
     }, g)) : ta.b(function(a, b) {
       return Ab.a(U.a(b, 1), g) ? Ob.a(a, U.a(b, 0)) : a;
@@ -5954,13 +5960,13 @@ var af = function() {
   c.b = b;
   c.m = a;
   return c;
-}(), df = function() {
+}(), ef = function() {
   function a(a, b, g) {
     return c.a(a, Xe.a(b, g));
   }
   function b(a, b) {
-    return pd(Uc.a(function(c) {
-      return cf.b(a, c, b);
+    return pd(af(function(c) {
+      return df.b(a, c, b);
     }, Fd(U.a(a, "edges"))));
   }
   var c = null, c = function(c, e, g) {
@@ -6012,10 +6018,10 @@ t("graph.addEdge", function(a, b, c) {
 t("graph.getEdges", function(a, b) {
   return Wc.a(a, new Y(null, 2, 5, Z, ["edges", b], null));
 });
-t("graph.getOutgoing", af);
-t("graph.getAllOutgoing", bf);
-t("graph.getIncoming", cf);
-t("graph.getAllIncoming", df);
+t("graph.getOutgoing", bf);
+t("graph.getAllOutgoing", cf);
+t("graph.getIncoming", df);
+t("graph.getAllIncoming", ef);
 t("graph.expand", function(a, b) {
   return pd(Mc.a(function(b) {
     return Wc.a(a, new Y(null, 2, 5, Z, ["vertices", b], null));
@@ -6024,14 +6030,14 @@ t("graph.expand", function(a, b) {
 t("graph.uniq", function(a) {
   return pd(Vc(Ae(), a));
 });
-function ef(a) {
+function ff(a) {
   return We.d(new Y(null, 3, 5, Z, [a.ns, ":", "" + C.d(a.id)], null));
 }
 t("graph.fromJson", function(a) {
   var b = a.vertices, c = a.edgeGroups, d = Object.keys(c), e = function() {
     for (var a = 0, c = Hd;;) {
       if (a < b.length) {
-        var d = a + 1, c = V.b(c, a, ef(b[a])), a = d
+        var d = a + 1, c = V.b(c, a, ff(b[a])), a = d
       } else {
         return c;
       }
@@ -6040,7 +6046,7 @@ t("graph.fromJson", function(a) {
   return V.b(V.b(V.b(V.b(V.b(Hd, "map", e), "edgeNames", d), "vertices", Gc(function() {
     for (var a = 0, c = g;;) {
       if (a < b.length) {
-        var d = a + 1, a = b[a], c = Ic.b(c, ef(a), Ve.d(a)), a = d
+        var d = a + 1, a = b[a], c = Ic.b(c, ff(a), Ve.d(a)), a = d
       } else {
         return c;
       }

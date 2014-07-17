@@ -106,10 +106,38 @@
 
 ; Relationship Functions
 
+(defn mapset
+  [func coll]
+  "Map over a collection, but store the results in a set.  If the map returns
+  a vector or sequence, it will be flattened"
+  (reduce
+    (fn [acc item]
+      (let [result (func item)]
+        (if (or (vector? result) (seq? result))
+          (into acc result)
+          (conj acc result))))
+    #{}
+    coll))
+
+(defn createRecurWalker
+  [func]
+  "helper method to create the getOutgoingRecur and getIncomingRecur functions"
+  (fn [graph relName vertKeys]
+    (let [keys (if (set? vertKeys) vertKeys #{vertKeys})]
+      (vec
+        (loop [lastSize -1
+               curSet keys]
+          (if (= (count curSet) lastSize)
+            curSet
+            (recur
+              (count curSet)
+              (into curSet (func graph relName curSet))))))))
+  )
+
 (defn getOutgoing
   ([graph relName vertKey]
-    (if (vector? vertKey) ; support a sequence of ids
-      (vec (mapcat
+    (if (or (vector? vertKey) (set? vertKey)) ; support a sequence of ids
+      (vec (mapset
         (fn [key]
           (getOutgoing graph relName key))
         vertKey))
@@ -118,10 +146,12 @@
   ([graph relName nom id]
     (getOutgoing graph relName (vertex-key nom id))))
 
+(def getOutgoingRecur (createRecurWalker getOutgoing))
+
 (defn getAllOutgoing
   ([graph vertKey]
     (vec
-      (mapcat
+      (mapset
         (fn [edgeName]
           (getOutgoing graph edgeName vertKey))
         (keys (get graph "edges")))))
@@ -131,7 +161,7 @@
 (defn getIncoming
   ([graph relName vertKey]
     (if (vector? vertKey)
-      (vec (mapcat
+      (vec (mapset
         (fn [key]
           (getIncoming graph relName key))
         vertKey))
@@ -145,9 +175,12 @@
   ([graph relName nom id]
     (getIncoming graph relName (vertex-key nom id))))
 
+
+(def getIncomingRecur (createRecurWalker getIncoming))
+
 (defn getAllIncoming
   ([graph vertKey]
-    (vec (mapcat
+    (vec (mapset
       (fn [edgeName]
         (getIncoming graph edgeName vertKey))
       (keys (get graph "edges")))))

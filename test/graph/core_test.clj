@@ -92,37 +92,43 @@
         (is (= (getOutgoing g "rel" "class" "1") ["class:2"]))
         (is (= (getOutgoing g "rel" "class:2") ["class:1"]))))
 
-    (testing "should get outgoing edges form an array of vertices"
+    (testing "should get outgoing edges from an array of vertices"
       (let [g (basicGraph)]
         (is (=
           (getOutgoing g "rel" ["class:1" "class:2"])
-          ["class:2" "class:1"]))))
+          ["class:1" "class:2"]))))
+
+    (testing "should get outgoing edges recursively"
+      (let [g (-> (basicGraph)
+                (addEdge "rel" {"from" "class:2" "to" "class:3"}))]
+        (is (= (getOutgoingRecur g "rel" "class:1")
+               ["class:1" "class:2" "class:3"]))))
 
     (testing "should get verts connected by all outgoing edges"
       (let [g (basicGraph)]
-        (is (= (getAllOutgoing g "class:2") ["class:2" "class:1"]))))
+        (is (= (getAllOutgoing g "class:2") ["class:1" "class:2"]))))
 
     (testing "should get verts connected by named incoming edges"
       (let [g (basicGraph)]
         (is (= (getIncoming g "rel" "class" "1") ["class:2"]))
         (is (= (getIncoming g "rel" "class:2") ["class:1"]))))
 
-    (testing "should get incoming edges form an array of vertices"
+    (testing "should get incoming edges from an array of vertices"
       (let [g (basicGraph)]
         (is (=
           (getIncoming g "rel" ["class:1" "class:2"])
-          ["class:2" "class:1"]))))
+          ["class:1" "class:2"]))))
 
     (testing "should get verts connected by all incoming edges"
       (let [g (basicGraph)]
-        (is (= (getAllIncoming g "class:2") ["class:2" "class:1"]))))
+        (is (= (getAllIncoming g "class:2") ["class:1" "class:2"]))))
 
     (testing "should expand edge results"
       (let [g (basicGraph)
             result (getAllOutgoing g "class:2")]
         (is (= (expand g result) [
-          {"id" 2 "data" "bar"},
           {"id" 1 "data" "foo"}
+          {"id" 2 "data" "bar"}
         ]))))
   )
 )
@@ -145,3 +151,28 @@
 
   (testing "should work with a valid key in an array"
     (is (= (vertex-key ["asdf:123"]) "asdf:123"))))
+
+(deftest mapset-tests
+  (testing "should work with a vector"
+    (let [result (mapset
+                    (fn [item] (+ item 1))
+                    (vec (range 0 5)))]
+      (is (= result #{1 2 3 4 5}))))
+
+  (testing "should work with a set"
+    (let [result (mapset
+                    (fn [item] (+ item 1))
+                    #{0 1 2 3 4})]
+      (is (= result #{1 2 3 4 5}))))
+
+  (testing "should work with a map"
+    (let [result (mapset
+                    (fn [item] (+ (get item 0) 1))
+                    {1 1, 2 2, 3 3})]
+      (is (= result #{2 3 4}))))
+
+  (testing "should work when it returns other vectors"
+    (let [result (mapset
+                    (fn [item] [item (- item 1)])
+                    [1 2 3])]
+      (is (= result #{0 1 2 3})))))
