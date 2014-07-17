@@ -121,7 +121,8 @@
 
 (defn createRecurWalker
   [func]
-  "helper method to create the getOutgoingRecur and getIncomingRecur functions"
+  "Helper method to create the getOutgoingRecur and getIncomingRecur functions.
+  Recursively calls getOutgoing until the set of vertex ids stops growing"
   (fn [graph relName vertKeys]
     (let [keys (if (set? vertKeys) vertKeys #{vertKeys})]
       (vec
