@@ -1,6 +1,6 @@
 (ns graph
   (:refer-clojure :exclude
-   [ get get-in vals count
+   [ get get-in vals count subvec
      concat mapcat
      into-array
      vector hash-map set])
@@ -15,6 +15,7 @@
 (def ^:export getVertices graph/getVertices)
 (def ^:export addEdge graph/addEdge)
 (def ^:export getEdges graph/getEdges)
+(def ^:export getEdgeTypes graph/getEdgeTypes)
 (def ^:export getOutgoing graph/getOutgoing)
 (def ^:export getOutgoingRecur graph/getOutgoingRecur)
 (def ^:export getAllOutgoing graph/getAllOutgoing)
@@ -23,6 +24,11 @@
 (def ^:export getAllIncoming graph/getAllIncoming)
 (def ^:export expand graph/expand)
 (def ^:export uniq graph/uniq)
+
+(defn ^:export expandWhere
+  [graph vertKeys query]
+  (let [query (if (map? query) query (js->clj query))]
+    (graph/expandWhere graph vertKeys query)))
 
 (defn getKey
   [vertex]
@@ -88,6 +94,7 @@
 (def ^:export get-in cljs.core/get-in)
 (def ^:export vals cljs.core/vals)
 (def ^:export count cljs.core/count)
+(def ^:export subvec cljs.core/subvec)
 (def ^:export concat cljs.core/concat)
 (def ^:export mapcat cljs.core/mapcat)
 (def ^:export into-array cljs.core/into-array)

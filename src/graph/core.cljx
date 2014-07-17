@@ -101,6 +101,9 @@
 (defn getEdges [graph nom]
   (get-in graph ["edges" nom]))
 
+(defn getEdgeTypes [graph]
+  (keys (get graph "edges")))
+
 ; TODO: "remove" operations
 
 
@@ -189,10 +192,36 @@
     (getAllIncoming graph (vertex-key nom id))))
 
 (defn expand [graph vertKeys]
-  (vec (map
-    (fn [key]
-      (get-in graph ["vertices" key]))
-    vertKeys)))
+  (vec
+    (map
+      (fn [key]
+        (get-in graph ["vertices" key]))
+      vertKeys)))
+
+(defn matches
+  [query]
+  (if (= (count query) 1)
+    ; common case of a single key/val
+    (let [firstKey (first (keys query))
+          firstVal (get query firstKey)]
+      (fn [item]
+        (= (get item firstKey) firstVal)))
+    (fn [item]
+      (let [numCommon (reduce-kv
+                        (fn [cnt key val]
+                          (if (= (get item key) val)
+                            (+ cnt 1)
+                            cnt))
+                        0
+                        item)]
+        (and (> numCommon 0) (= numCommon (count query)))))))
+
+(defn expandWhere [graph vertKeys query]
+  (vec
+    (filter
+      (fn [key]
+        ((matches query) (get-in graph ["vertices" key])))
+      vertKeys)))
 
 (defn uniq [coll]
   (vec (into (sorted-set) coll)))
