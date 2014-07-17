@@ -23,6 +23,7 @@
 (def ^:export getIncomingRecur graph/getIncomingRecur)
 (def ^:export getAllIncoming graph/getAllIncoming)
 (def ^:export expand graph/expand)
+(def ^:export sortBy graph/sortBy)
 (def ^:export uniq graph/uniq)
 
 (defn ^:export expandWhere

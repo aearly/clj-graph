@@ -223,5 +223,14 @@
         ((matches query) (get-in graph ["vertices" key])))
       vertKeys)))
 
+(defn sortBy [graph vertKeys prop]
+  (vec
+    (sort-by
+      (fn [lkey rkey]
+        (let [lhs (get-in graph ["vertices" lkey])
+              rhs (get-in graph ["vertices" rkey])]
+          (< (get lhs prop) (get rhs prop))))
+      vertKeys)))
+
 (defn uniq [coll]
   (vec (into (sorted-set) coll)))
