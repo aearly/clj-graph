@@ -57,8 +57,11 @@
       (assoc "vertices"
         (persistent!
           (areduce jsonVertices idx acc vertices
-            (let [vertex (aget jsonVertices idx)]
-              (assoc! acc (getKey vertex) (js->clj vertex))))))
+            (let [vertex (aget jsonVertices idx)
+                  vertKey (getKey vertex)]
+              (assoc! acc
+                vertKey (assoc (js->clj vertex)
+                  "vertexId" vertKey))))))
       (assoc "edges"
         (persistent!
           (areduce edgeNames edgeNameIndex acc edges

@@ -122,6 +122,7 @@
     #{}
     coll))
 
+; TODO: make this a macro
 (defn createRecurWalker
   [func]
   "Helper method to create the getOutgoingRecur and getIncomingRecur functions.
@@ -220,7 +221,10 @@
   (vec
     (filter
       (fn [key]
-        ((matches query) (get-in graph ["vertices" key])))
+        (or
+          (= (get query "vertexId") key)
+          ((matches query) (get-in graph ["vertices" key])))
+          )
       vertKeys)))
 
 (defn sortBy [graph vertKeys prop]
