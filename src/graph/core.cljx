@@ -169,7 +169,7 @@
 
 (defn getIncoming
   ([graph relName vertKey]
-    (if (vector? vertKey)
+    (if (or (vector? vertKey) (set? vertKey)) ; support a sequence of ids
       (vec (mapset
         (fn [key]
           (getIncoming graph relName key))
