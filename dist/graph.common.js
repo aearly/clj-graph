@@ -6083,7 +6083,7 @@ var lf = function() {
     return c.b(a, b, ef.a(g, h));
   }
   function b(a, b, g) {
-    return dc(g) ? xd(jf(function(g) {
+    return dc(g) || ac(g) ? xd(jf(function(g) {
       return c.b(a, b, g);
     }, g)) : wa.b(function(a, b) {
       return Db.a(U.a(b, 1), g) ? Rb.a(a, U.a(b, 0)) : a;

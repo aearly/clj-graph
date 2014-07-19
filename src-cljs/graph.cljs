@@ -1,7 +1,7 @@
 (ns graph
   (:refer-clojure :exclude
    [ get get-in vals count subvec
-     concat mapcat
+     concat mapcat reverse
      into-array
      vector hash-map set])
   (:require
@@ -101,6 +101,7 @@
 (def ^:export subvec cljs.core/subvec)
 (def ^:export concat cljs.core/concat)
 (def ^:export mapcat cljs.core/mapcat)
+(def ^:export reverse cljs.core/reverse)
 (def ^:export into-array cljs.core/into-array)
 
 ; basic types
