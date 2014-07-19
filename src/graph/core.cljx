@@ -128,7 +128,11 @@
   "Helper method to create the getOutgoingRecur and getIncomingRecur functions.
   Recursively calls getOutgoing until the set of vertex ids stops growing"
   (fn [graph relName vertKeys]
-    (let [keys (if (set? vertKeys) vertKeys #{vertKeys})]
+    (let [keys (if (set? vertKeys)
+                  vertKeys
+                  (if (vector? vertKeys)
+                    (into #{} vertKeys)
+                    #{vertKeys}))] ; otherwise, scalar
       (vec
         (loop [lastSize -1
                curSet keys]
