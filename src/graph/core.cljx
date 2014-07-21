@@ -116,7 +116,7 @@
   (reduce
     (fn [acc item]
       (let [result (func item)]
-        (if (or (vector? result) (seq? result))
+        (if (or (vector? result) (seq? result) (set? result))
           (into acc result)
           (conj acc result))))
     #{}
@@ -128,10 +128,10 @@
   "Helper method to create the getOutgoingRecur and getIncomingRecur functions.
   Recursively calls getOutgoing until the set of vertex ids stops growing"
   (fn [graph relName vertKeys]
-    (let [keys (func graph relName keys)] ; init with an initial run
+    (let [keys (func graph relName vertKeys)] ; init with an initial run
       (vec
         (loop [lastSize -1
-               curSet keys]
+               curSet (into #{} keys)]
           (if (= (count curSet) lastSize)
             curSet
             (recur
@@ -165,18 +165,19 @@
 
 (defn getIncoming
   ([graph relName vertKey]
-    (if (or (vector? vertKey) (set? vertKey)) ; support a sequence of ids
-      (vec (mapset
-        (fn [key]
-          (getIncoming graph relName key))
-        vertKey))
-      (reduce
-        (fn [acc edge]
-          (if (= (get edge TO) vertKey)
-            (conj acc (get edge FROM))
-            acc))
-        []
-        (get-in graph ["edges" relName]))))
+    (vec
+      (if (or (vector? vertKey) (set? vertKey)) ; support a sequence of ids
+        (mapset
+          (fn [key]
+            (getIncoming graph relName key))
+          vertKey)
+        (reduce
+          (fn [acc edge]
+            (if (= (get edge TO) vertKey)
+              (conj acc (get edge FROM))
+              acc))
+          #{}
+          (get-in graph ["edges" relName])))))
   ([graph relName nom id]
     (getIncoming graph relName (vertex-key nom id))))
 
