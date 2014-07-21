@@ -3,7 +3,7 @@
    [ get get-in vals count subvec
      concat map mapcat reverse
      into-array
-     vector hash-map set])
+     vector vec hash-map set])
   (:require
     [graph.core :as graph]
     [clojure.string :refer [join]]))
@@ -25,6 +25,12 @@
 (def ^:export expand graph/expand)
 (def ^:export sortBy graph/sortBy)
 (def ^:export uniq graph/uniq)
+
+(defn ^:export from-array
+  [arr]
+  "convert a single array into a vector (shallow"
+  (areduce arr index vec []
+    (conj vec (aget arr index))))
 
 (defn ^:export expandWhere
   [graph vertKeys query]
@@ -107,6 +113,7 @@
 
 ; basic types
 (def ^:export vector cljs.core/vector)
+(def ^:export vec cljs.core/vec)
 (def ^:export hash-map cljs.core/hash-map)
 (def ^:export set cljs.core/set)
 

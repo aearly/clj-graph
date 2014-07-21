@@ -108,6 +108,11 @@
 
 
 ; Relationship Functions
+(defn- listy? [item]
+  (or
+    (vector? item)
+    (seq? item)
+    (set? item)))
 
 (defn mapset
   [func coll]
@@ -116,7 +121,7 @@
   (reduce
     (fn [acc item]
       (let [result (func item)]
-        (if (or (vector? result) (seq? result) (set? result))
+        (if (listy? result)
           (into acc result)
           (conj acc result))))
     (sorted-set)
@@ -141,7 +146,7 @@
 
 (defn getOutgoing
   ([graph relName vertKey]
-    (if (or (vector? vertKey) (set? vertKey)) ; support a sequence of ids
+    (if (listy? vertKey) ; support a sequence of ids
       (vec (mapset
         (fn [key]
           (getOutgoing graph relName key))
@@ -166,7 +171,7 @@
 (defn getIncoming
   ([graph relName vertKey]
     (vec
-      (if (or (vector? vertKey) (set? vertKey)) ; support a sequence of ids
+      (if (listy? vertKey) ; support a sequence of ids
         (mapset
           (fn [key]
             (getIncoming graph relName key))
