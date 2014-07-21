@@ -128,11 +128,7 @@
   "Helper method to create the getOutgoingRecur and getIncomingRecur functions.
   Recursively calls getOutgoing until the set of vertex ids stops growing"
   (fn [graph relName vertKeys]
-    (let [keys (if (set? vertKeys)
-                  vertKeys
-                  (if (vector? vertKeys)
-                    (into #{} vertKeys)
-                    #{vertKeys}))] ; otherwise, scalar
+    (let [keys (func graph relName keys)] ; init with an initial run
       (vec
         (loop [lastSize -1
                curSet keys]
@@ -205,6 +201,8 @@
 
 (defn matches
   [query]
+  "return a predicate that returns true if the properties of the map passed in
+  equal all the properties of the query map"
   (if (= (count query) 1)
     ; common case of a single key/val
     (let [firstKey (first (keys query))
@@ -225,10 +223,11 @@
   (vec
     (filter
       (fn [key]
-        (or
-          (= (get query "vertexId") key)
-          ((matches query) (get-in graph ["vertices" key])))
-          )
+        (let [pred (matches query)]
+          (or
+            (= (get query "vertexId") key) ; common case
+            (pred (get-in graph ["vertices" key]))) ))
+
       vertKeys)))
 
 (defn sortBy [graph vertKeys prop]
