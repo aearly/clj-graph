@@ -133,6 +133,16 @@
   )
 )
 
+(deftest expand-tests
+  (testing "should work with a basic query"
+    (let [g (basicGraph)
+          result (expandWhere g ["class:1" "class:2"] {"data" "foo"})]
+      (is (= result ["class:1"]))))
+
+  (testing "should work with a single key"
+    (let [g (basicGraph)
+          result (expandWhere g ["class:1" "class:2"] {"vertexId" "class:2"})]
+      (is (= result ["class:2"])))))
 
 
 (deftest vertex-key-tests
@@ -176,3 +186,17 @@
                     (fn [item] [item (- item 1)])
                     [1 2 3])]
       (is (= result #{0 1 2 3})))))
+
+(deftest uniq-tests
+  (testing "should work with vecs of numbers"
+    (is (= (uniq [1 2 2 3]) [1 2 3])))
+
+  (testing "should work with vecs of strings"
+    (is (= (uniq ["1" "2" "2" "3"]) ["1" "2" "3"])))
+
+  (testing "should work with sets of numbers"
+    (is (= (uniq #{1 2 3}) [1 2 3])))
+
+  (testing "should work with sets of strings"
+    (is (= (uniq #{"1" "2" "3"}) ["1" "2" "3"])))
+  )
