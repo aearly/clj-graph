@@ -119,7 +119,7 @@
         (if (or (vector? result) (seq? result) (set? result))
           (into acc result)
           (conj acc result))))
-    #{}
+    (sorted-set)
     coll))
 
 ; TODO: make this a macro
@@ -131,7 +131,7 @@
     (let [keys (func graph relName vertKeys)] ; init with an initial run
       (vec
         (loop [lastSize -1
-               curSet (into #{} keys)]
+               curSet (into (sorted-set) keys)]
           (if (= (count curSet) lastSize)
             curSet
             (recur
@@ -176,7 +176,7 @@
             (if (= (get edge TO) vertKey)
               (conj acc (get edge FROM))
               acc))
-          #{}
+          (sorted-set)
           (get-in graph ["edges" relName])))))
   ([graph relName nom id]
     (getIncoming graph relName (vertex-key nom id))))
