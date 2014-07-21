@@ -13,6 +13,7 @@ dist/graph.common.js: dist/graph.js
 	cat support/preamble.js dist/graph.js support/suffix.js > dist/graph.common.js
 
 clean:
-	rm dist/graph.common.js
+	rm -rf target/generated/*
+	rm -rf dist/graph.common.js dist/graph.js
 
 .PHONY: clean default lein

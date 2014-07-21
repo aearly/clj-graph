@@ -104,6 +104,26 @@
         (is (= (getOutgoingRecur g "rel" "ns:1")
                ["ns:1" "ns:2" "ns:3"]))))
 
+    (testing "should get outgoing edges recursively (single)"
+      (let [g (-> (basicGraph)
+                (addVertex "ns" {"id" 4 "data" "qux"})
+                (addEdge "rel" {"from" "ns:3" "to" "ns:4"}))]
+        (is (= (getOutgoingRecur g "rel" "ns:3")
+               ["ns:4"]))))
+
+    (testing "should get outgoing edges recursively (multi, single depth)"
+      (let [g (-> (basicGraph)
+                (addVertex "ns" {"id" 4 "data" "qux"})
+                (addEdge "test" {"from" "ns:3" "to" "ns:4"})
+                (addEdge "test" {"from" "ns:3" "to" "ns:1"}))]
+        (is (= (getOutgoingRecur g "test" ["ns:3"])
+               ["ns:1" "ns:4"]))))
+
+    (testing "should get outgoing edges recursively (self)"
+      (let [g (basicGraph)]
+        (is (= (getOutgoingRecur g "otherrel" "ns:2")
+               ["ns:2"]))))
+
     (testing "should get verts connected by all outgoing edges"
       (let [g (basicGraph)]
         (is (= (getAllOutgoing g "ns:2") ["ns:1" "ns:2"]))))
