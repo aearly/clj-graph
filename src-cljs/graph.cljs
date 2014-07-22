@@ -67,7 +67,7 @@
                   vertKey (getKey vertex)]
               (assoc! acc
                 vertKey (assoc (js->clj vertex)
-                  "vertexId" vertKey))))))
+                  "vertexKey" vertKey))))))
       (assoc "edges"
         (persistent!
           (areduce edgeNames edgeNameIndex acc edges

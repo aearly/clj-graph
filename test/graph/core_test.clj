@@ -161,7 +161,7 @@
 
   (testing "should work with a single key"
     (let [g (basicGraph)
-          result (expandWhere g ["ns:1" "ns:2"] {"vertexId" "ns:2"})]
+          result (expandWhere g ["ns:1" "ns:2"] {"vertexKey" "ns:2"})]
       (is (= result ["ns:2"])))))
 
 

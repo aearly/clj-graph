@@ -231,7 +231,7 @@
       (fn [key]
         (let [pred (matches query)]
           (or
-            (= (get query "vertexId") key) ; common case
+            (= (get query "vertexKey") key) ; common case
             (pred (get-in graph ["vertices" key]))) ))
 
       vertKeys)))

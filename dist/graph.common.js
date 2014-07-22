@@ -6197,7 +6197,7 @@ function wf(a) {
 }
 function xf(a, b, c) {
   return Ad(ed(function(b) {
-    var e = wf(c), g = Fb.a(V.a(c, "vertexId"), b);
+    var e = wf(c), g = Fb.a(V.a(c, "vertexKey"), b);
     return g ? g : e.c ? e.c(gd.a(a, new X(null, 2, 5, Z, ["vertices", b], null))) : e.call(null, gd.a(a, new X(null, 2, 5, Z, ["vertices", b], null)));
   }, b));
 }
@@ -6289,7 +6289,7 @@ t("graph.fromJson", function(a) {
   return W.b(W.b(W.b(W.b(W.b(Sd, "map", e), "edgeNames", d), "vertices", Pc(function() {
     for (var a = 0, c = g;;) {
       if (a < b.length) {
-        var d = a + 1, a = b[a], e = yf(a), c = Rc.b(c, e, W.b(gf.c(a), "vertexId", e)), a = d
+        var d = a + 1, a = b[a], e = yf(a), c = Rc.b(c, e, W.b(gf.c(a), "vertexKey", e)), a = d
       } else {
         return c;
       }
