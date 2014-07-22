@@ -12,8 +12,11 @@ dist/graph.js: target/generated/cljs/graph/core.cljs src-cljs/graph.cljs
 dist/graph.common.js: dist/graph.js
 	cat support/preamble.js dist/graph.js support/suffix.js > dist/graph.common.js
 
+test: lein
+	lein test
+
 clean:
 	rm -rf target/generated/*
 	rm -rf dist/graph.common.js dist/graph.js
 
-.PHONY: clean default lein
+.PHONY: clean default lein test
