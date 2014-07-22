@@ -43,7 +43,7 @@
 
 (defn addEgdeToIndex
   [index from to]
-  (let [vertexIndex (or (cljs.core/get index from) [])]
+  (let [vertexIndex (cljs.core/get index from #{})]
     (assoc! index from (conj vertexIndex to))))
 
 (defn ^:export fromJson

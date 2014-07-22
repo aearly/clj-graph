@@ -74,7 +74,7 @@
   "creates hashmaps of edges based on their from vertices"
   [graph nom from to]
   (update-in graph ["indexes" nom from] (fn [index]
-    (let [index (or index [])]
+    (let [index (or index #{})]
       (conj index to)))))
 
 (defn addEdge
@@ -124,7 +124,7 @@
         (if (listy? result)
           (into acc result)
           (conj acc result))))
-    (sorted-set)
+    #{}
     coll))
 
 ; TODO: make this a macro
@@ -136,7 +136,7 @@
     (let [keys (func graph relName vertKeys)] ; init with an initial run
       (vec
         (loop [lastSize -1
-               curSet (into (sorted-set) keys)]
+               curSet (into #{} keys)]
           (if (= (count curSet) lastSize)
             curSet
             (recur
@@ -146,13 +146,14 @@
 
 (defn getOutgoing
   ([graph relName vertKey]
-    (if (listy? vertKey) ; support a sequence of ids
-      (vec (mapset
-        (fn [key]
-          (getOutgoing graph relName key))
-        vertKey))
-      (get-in graph ["indexes" relName vertKey] []))
-    )
+    (vec
+      (if (listy? vertKey) ; support a sequence of ids
+        (mapset
+          (fn [key]
+            (getOutgoing graph relName key))
+          vertKey)
+        (get-in graph ["indexes" relName vertKey] #{}))))
+
   ([graph relName nom id]
     (getOutgoing graph relName (vertex-key nom id))))
 
@@ -181,7 +182,7 @@
             (if (= (get edge TO) vertKey)
               (conj acc (get edge FROM))
               acc))
-          (sorted-set)
+          #{}
           (get-in graph ["edges" relName])))))
   ([graph relName nom id]
     (getIncoming graph relName (vertex-key nom id))))
@@ -240,9 +241,9 @@
   (vec
     (sort-by
       (fn [lkey rkey]
-        (let [lhs (get-in graph ["vertices" lkey])
-              rhs (get-in graph ["vertices" rkey])]
-          (< (get lhs prop) (get rhs prop))))
+        (let [lhs (get-in graph ["vertices" lkey prop])
+              rhs (get-in graph ["vertices" rkey prop])]
+          (compare lhs rhs )))
       vertKeys)))
 
 (defn uniq [coll]

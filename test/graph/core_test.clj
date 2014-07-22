@@ -66,9 +66,9 @@
             indexes (get g "indexes")]
         (is (= indexes {
           "rel" {
-            "ns:1" ["ns:2"]
-            "ns:2" ["ns:1"] }
-          "otherrel" { "ns:2" ["ns:2"] }
+            "ns:1" #{"ns:2"}
+            "ns:2" #{"ns:1"} }
+          "otherrel" { "ns:2" #{"ns:2"} }
         }))))
 
     (testing "should get a list of named edges"
@@ -101,8 +101,8 @@
     (testing "should get outgoing edges recursively"
       (let [g (-> (basicGraph)
                 (addEdge "rel" {"from" "ns:2" "to" "ns:3"}))]
-        (is (= (getOutgoingRecur g "rel" "ns:1")
-               ["ns:1" "ns:2" "ns:3"]))))
+        (is (= (into #{} (getOutgoingRecur g "rel" "ns:1"))
+               #{"ns:1" "ns:2" "ns:3"}))))
 
     (testing "should get outgoing edges recursively (single)"
       (let [g (-> (basicGraph)
